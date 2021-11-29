@@ -119,6 +119,3 @@ class GameState:
     def random_game(num_pegs: int, num_colors: int, max_guesses: int) -> "GameState":
         pegs = Random_Num().generate(low=0, high=num_colors-1, num=num_pegs)
         return GameState(pegs, num_colors, max_guesses)
-
-
-

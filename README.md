@@ -15,7 +15,7 @@ I originally wanted to build in more features right from the onset. After starti
 
 For the user-interface I decided to go with terminal input to make sure that a usable product would be sent on time. The intent was to avoid a broken program due to user interface. However, I did write the code so that classes, modules, and functions could be used by user-interface program when it was built.
 
-The final step for me was going through and refactoring my code. I tried to encapsulate more of the stand-alone functions into classes. I also looked for ways to make the code as efficient as possible. Both of these processes were part of the redesign aimed to be used by a UI program. To this end, I broke the code into the core and the terminalUI
+The final step for me was going through and refactoring my code. I tried to encapsulate more of the stand-alone functions into classes. I also looked for ways to make the code as efficient as possible. Both of these processes were part of the redesign aimed to be used by a UI program. To this end, I broke the code into the core and the terminalUI.
 
 
 ## Features I would like to add:
