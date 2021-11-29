@@ -43,6 +43,7 @@ class Random_Num:
             },
         )
 
+
 class GameStatus(Enum):
     PLAYING = 0
     WON = 1
@@ -54,11 +55,17 @@ class GuessResult(NamedTuple):
     color_correct: int
 
 
+class GuessHistory(NamedTuple):
+    guess: List[int]
+    result: GuessResult
+
+
 class GameState:
     def __init__(self, pegs: List[int], num_colors: int, max_guesses: int):
         self.pegs = pegs
         self.num_colors = num_colors
         self.max_guesses = max_guesses
+        self.guess_history: List[GuessHistory] = []
 
     def num_pegs(self) -> int:
         """
@@ -92,4 +99,26 @@ class GameState:
         Takes in guesses from the user and advances the GameState
         """
         result = self.check_guess(guess)
+        self.guess_history.append(GuessHistory(guess=guess, result=result))
+
+        status = GameStatus.PLAYING
+        if result.full_correct == len(self.pegs):
+            status = GameStatus.WON
+        if self.out_of_guesses():
+            status = GameStatue.LOST
+
+        return result._replace(game_status=status)
+
+    def out_of_guesses(self) -> bool:
+        return self.guesses_left() == 0
+
+    def guesses_left(self) -> int:
+        return self.max_guesses - len(self.guess_history)
+
+    @staticmethod
+    def random_game(num_pegs: int, num_colors: int, max_guesses: int) -> "GameState":
+        pegs = Random_Num().generate(low=0, high=num_colors-1, num=num_pegs)
+        return GameState(pegs, num_colors, max_guesses)
+
+
 
