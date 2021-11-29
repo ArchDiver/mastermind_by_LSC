@@ -2,26 +2,33 @@ from typing import List
 import sys
 
 import logging as log
+# from mastermind_core import GameStatus
 
-import mastermind_core as core
+import mastermind_core as game
 
 
 class TerminalUI:
     def __init__(self):
-        self.core = None
+        self.game = None
 
     def play(self):
         """
-        Plays the game in a loop till the user quits
+        Play the game forever, until the user asks to quit.
         """
-        self.core = core.GameState.random_game(4, 0, 8, 10)
+        self.game = game.GameState.random_game(4, 8, 2)
         while True:
+            print("\n\n             Welcome to Mastermind by LSC\n")
+            print("To win you need to fully guess ALL of the numbers.")
+            print("After each full guess you will get your guess results:")
+            print("    'Fully Correct' means correct number in the correct position.")
+            print(
+                "    'Correct Color' means the color is correct but the position is NOT.\n")
             guess = self.get_guess()
-            self.eval_guess(guess)
+            self.evaluate_guess(guess)
 
     def get_int(self, prompt: str) -> int:
         """
-        Gets int from user. Loops till int is entered.
+        Get an int from the user. Tries repeatedly until an int is entered.
         """
         while True:
             num_str = input(prompt)
@@ -30,58 +37,67 @@ class TerminalUI:
             except ValueError:
                 pass
 
-    def yes_no(self, prompt: str) -> bool:
+    def get_yes_no(self, prompt: str) -> bool:
         """
-        Takes in a str and evaluates it for bool. Only accepts "y" or "n".
+        As get_int, but returns a boolean. Anything that starts with "Y" or "y" is true,
+        anything that starts with "N" or "n" is false,
+        anything else is prompted again.
         """
         while True:
             answer = input(prompt)
-            if not answer:
-                continue
-            if answer[0].lower() == "y":
-                return True
             if answer[0].lower() == "n":
                 return False
+            if answer[0].lower() == "y":
+                return True
+            else:
+                continue
 
     def print_board(self):
         """
-        Displays the board with previous guesses and remaining guesses
+        Display the number of guesses left and all the previous guesses.
         """
-        print(f"You have {self.core.guesses_left()} guesses left.")
-        if self.core.guess_history:
+        print(f"You have {self.game.guesses_left()} guesses left.")
+        if self.game.guess_history:
             print("Your previous guesses: ")
-            for guess in self.core.guess_history:
+            for guess in self.game.guess_history:
                 print(
-                    "  ",
+                    "    ",
                     " ".join(str(x) for x in guess.guess),
-                    f"Fully Correct= {guess.result.full_correct}, Correct color= {guess.result.color_correct}",
+                    f"fully correct={guess.result.full_correct}, right color={guess.result.correct_color}",
                 )
 
     def get_guess(self) -> List[int]:
-        """
-        Retrieves the guesses from the user and returns the list
-        """
         guesses: List[int] = []
         self.print_board()
-        while len(guesses) < self.core.num_pegs():
-            peg_num = len(guesses) - 1
-            prompt = f"Enter peg {peg_num} choice from {self.core.low_num} to {self.core.num_colors - 1}"
+        while len(guesses) < self.game.num_pegs():
+            peg_num = len(guesses) + 1
+            prompt = f"Enter peg {peg_num} color (number) from 0 to {self.game.num_colors - 1}: "
             guess = self.get_int(prompt)
-            if guess < 0 or guess >= self.core.num_colors:
+            if guess < 0 or guess >= self.game.num_colors:
                 continue
             guesses.append(guess)
-            print()
-            return guesses
+        print()
+        return guesses
 
-    def eval_guess(self, colors: List[int]):
-        result = self.core.take_guess(colors)
-        if result.full_correct == len(self.core.pegs):
-            print("WINNER!! Congrats.")
-            play_again = self.yes_no("Play Again? (y/n): ")
+    def evaluate_guess(self, colors: List[int]):
+        result = self.game.take_guess(colors)
+        if result.full_correct == len(self.game.pegs):
+            print("You win, sir or ma'am")
+            play_again = self.get_yes_no("Play again? ")
             if play_again:
-                self.core = core.GameState.random_game(4, 8, 10)
+                self.game = game.GameState.random_game(4, 8, 10)
             else:
-                sys.exit(0)
+                sys.exit(0)\
+
+        elif result.game_status == game.GameStatus.LOST:
+            print("You have lost.")
+            play_again = self.get_yes_no("Play again? (y/n): ")
+            if play_again:
+                self.game = game.GameState.random_game(4, 8, 10)
+            else:
+                sys.exit(0)\
+
+
         else:
             print(
                 f"Fully correct: {result.full_correct}; wrong location: {result.correct_color}"
@@ -90,13 +106,14 @@ class TerminalUI:
 
 def main():
     log.basicConfig(
-        filename="mastermind_LSC.log",
-        level=log.log.DEBUG,
+        filename="mastemind.log",
+        level=log.DEBUG,
         format="%(asctime)s:%(levelname)s:%(funcName)s:%(message)s",
     )
+
     ui = TerminalUI()
     ui.play()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
