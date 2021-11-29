@@ -82,7 +82,7 @@ class TerminalUI:
     def evaluate_guess(self, colors: List[int]):
         result = self.game.take_guess(colors)
         if result.full_correct == len(self.game.pegs):
-            print("You win, sir or ma'am")
+            print("Winner! winner! Chicken dinner!")
             play_again = self.get_yes_no("Play again? ")
             if play_again:
                 self.game = game.GameState.random_game(4, 8, 10)
