@@ -1,9 +1,11 @@
 astroid==2.9.0
+atomicwrites==1.4.0
 attrs==21.2.0
 black==21.11b1
 certifi==2021.10.8
 charset-normalizer==2.0.8
 click==8.0.3
+colorama==0.4.4
 idna==3.3
 iniconfig==1.1.1
 isort==5.10.1
