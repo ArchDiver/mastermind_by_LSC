@@ -22,11 +22,11 @@ The final step for me was going through and refactoring my code. I tried to enca
 1.  Implement the UI component. (This is mostly built but shipping the code was more important.)
 	* The first two components are first on the list so that my son can easily play the game.
 2. Add the ability to change to colors or even symbols. 
-* Built out a UI version of the colors but struggled with getting the letters to show up on the pegs. This was important to me, because my father-in-law is color blind and I want the game to be more accessible.
+	* Built out a UI version of the colors but struggled with getting the letters to show up on the pegs. 
+	** This was important to me, because my father-in-law is color blind and I want the game to be more accessible.
 
 3. Add the option to add more difficulty. 
 
-* Built out a UI version of the colors but struggled with getting the letters to show up on the pegs. This was important to me, because my father-in-law is color blind and I want the game to be more accessible.
 4. Add the ability for two players to play remotely. (Server)
 	* Local remote option (local server)
 	* True remote (remote server)
