@@ -1,5 +1,11 @@
 # Mastermind Challenge by LSC
 ## To Run
+You have two options:
+1)  Navigate to the 'mastermind_by_LSC' folder
+	Install with 'pip install .' 
+	then run with 'mastermind-terminal
+2)  Navigate to the 'mastermind_by_LSC\mastermind' folder
+	then run with 'python3
 
 ## Build and Thought Process
 
