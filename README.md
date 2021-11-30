@@ -3,9 +3,10 @@
 You have two options:
 1)  Navigate to the 'mastermind_by_LSC' folder
 	Install with 'pip install .' 
-	then run with 'mastermind-terminal
+	then run with 'mastermind-terminal'
 2)  Navigate to the 'mastermind_by_LSC\mastermind' folder
-	then run with 'python3
+	then run 'pip3 install -r requirements.txt'
+	then run with 'python mastermind_teminalUI.py'
 
 ## Build and Thought Process
 
